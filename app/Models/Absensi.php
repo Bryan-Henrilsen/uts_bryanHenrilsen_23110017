@@ -33,6 +33,6 @@ class Absensi extends Model
     public function scopePertemuan($query, $tanggal, $mkId)
     {
         return $query->where('tanggal_absensi', $tanggal)
-                     ->where('matakuliah_id', $mkId);
+                    ->where('matakuliah_id', $mkId);
     }
 }

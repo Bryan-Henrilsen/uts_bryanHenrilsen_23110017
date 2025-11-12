@@ -6,10 +6,14 @@
 <div class="container mt-5">
 
     <div class="card shadow-lg">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h4 class="m-0">Data Mata Kuliah</h4>
-            <a href="{{ route('matakuliah.create') }}" class="btn btn-primary">+ Tambah</a>
+        <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Data MataKuliah</h2>
+        <div class="d-flex gap-1">
+            <a href="{{ route('mahasiswa.index') }}" class="btn btn-primary">List Mahasiswa</a>
+            <a href="{{ route('absensi.index') }}" class="btn btn-primary">Halaman Absensi</a>
+            <a href="{{ route('matakuliah.create') }}" class="btn btn-primary">+ Tambah Matakuliah</a>
         </div>
+    </div>
 
         <div class="card-body">
 

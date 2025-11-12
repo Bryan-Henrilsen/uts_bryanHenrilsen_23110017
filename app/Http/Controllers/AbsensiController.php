@@ -48,4 +48,60 @@ class AbsensiController extends Controller
 
         return redirect()->route('absensi.index')->with('success', 'Absensi berhasil disimpan!');
     }
+
+    public function edit($tanggal, $mkId)
+    {
+        $absensis = Absensi::where('tanggal_absensi', $tanggal)
+            ->where('matakuliah_id', $mkId)
+            ->with('mahasiswa', 'matakuliah')
+            ->get();
+
+        if ($absensis->isEmpty()) {
+            return redirect()->route('absensi.index')->with('error', 'Data absensi tidak ditemukan');
+        }
+
+        $matakuliah = Matakuliah::find($mkId);
+        $mahasiswas = Mahasiswa::all();
+
+        return view('absensi.edit', compact('absensis', 'matakuliah', 'tanggal', 'mahasiswas'));
+    }
+
+    public function update(Request $request, $tanggal, $mkId)
+    {
+        foreach ($request->absensi_id as $id) {
+            $absen = Absensi::find($id);
+            if ($absen) {
+                $absen->update([
+                    'status_absen' => $request->status_absen[$id] ?? $absen->status_absen,
+                ]);
+            }
+        }
+
+        return redirect()->route('absensi.index')->with('success', 'Absensi berhasil diperbarui!');
+    }
+
+    public function show($tanggal, $mkId)
+    {
+        $absensis = Absensi::where('tanggal_absensi', $tanggal)
+            ->where('matakuliah_id', $mkId)
+            ->with('mahasiswa', 'matakuliah')
+            ->get();
+
+        if ($absensis->isEmpty()) {
+            return redirect()->route('absensi.index')->with('error', 'Data absensi tidak ditemukan.');
+        }
+
+        $matakuliah = Matakuliah::find($mkId);
+
+        return view('absensi.show', compact('absensis', 'matakuliah', 'tanggal'));
+    }
+
+    public function destroy($tanggal, $mkId)
+    {
+        Absensi::where('tanggal_absensi', $tanggal)
+            ->where('matakuliah_id', $mkId)
+            ->delete();
+
+        return redirect()->route('absensi.index')->with('success', 'Data absensi berhasil dihapus.');
+    }
 }
